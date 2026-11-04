@@ -1,0 +1,13 @@
+{
+  "name": "@smart40/robo-ur",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Grupo 3 — Cobot Universal Robots. Módulo da SPA única (carregado localmente pelo App Shell).",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": { "@smart40/contracts": "0.1.0", "@smart40/ui": "0.1.0" },
+  "peerDependencies": { "react": "^18.3.1", "react-dom": "^18.3.1" },
+  "scripts": { "typecheck": "tsc --noEmit -p ." }
+}

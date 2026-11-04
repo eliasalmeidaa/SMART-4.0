@@ -1,0 +1,21 @@
+{
+  "name": "@smart40/gateway",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "API Gateway SMART 4.0 (Sprint 2) — ponto único entre a SPA e as fontes de dados dos grupos. Modo MOCK por padrão. Custódia: Grupo 1.",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@smart40/contracts": "0.1.0",
+    "tsx": "^4.19.2",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/ws": "^8.5.13"
+  }
+}
