@@ -17,10 +17,27 @@ function appShellRoutesApi(): Plugin {
   };
 }
 
+/**
+ * Telas dos grupos (grupos/<gN>/...) trazem CSS global (html, body, :root, button…).
+ * Na SPA única esse CSS NÃO pode vazar para o Shell: todo .css importado por arquivos de
+ * grupos/ vira string (?inline) e o módulo do grupo o aplica dentro do próprio Shadow DOM.
+ */
+function isolateGroupCss(): Plugin {
+  return {
+    name: "smart40-isolate-group-css",
+    enforce: "pre",
+    async resolveId(source, importer) {
+      if (!importer || !/[\\/]grupos[\\/]/.test(importer) || !source.endsWith(".css")) return null;
+      const resolved = await this.resolve(source, importer, { skipSelf: true });
+      return resolved ? `${resolved.id}?inline` : null;
+    },
+  };
+}
+
 const headers = { "Access-Control-Allow-Origin": "*" };
 
 export default defineConfig({
-  plugins: [react(), appShellRoutesApi()],
+  plugins: [isolateGroupCss(), react(), appShellRoutesApi()],
   server: { port: 9000, strictPort: true, host: true, headers },
   preview: { port: 9000, strictPort: true, host: true, headers },
   build: { sourcemap: false },
