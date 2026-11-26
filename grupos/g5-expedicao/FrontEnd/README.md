@@ -1,12 +1,12 @@
 # SMART 4.0 · Expedição & OEE
 
-> Sprint 2: a entrega atual é a biblioteca de processamento sem tela em `src/processing`. Consulte o [README da raiz](../README.md) e a [entrega técnica](../ENTREGA-SPRINT2.md). As instruções abaixo descrevem somente a demonstração React anterior.
+> Sprint 3 estabilizada em 25/11/2026: painel em `/sprint3.html`, módulo ESM em `dist/assets/sprint3-module.js` e distribuição oficial em `../release/`. Consulte o [roteiro da bancada](../docs/estabilizacao-sprint3/04-ROTEIRO-BANCADA-25-11.md), o [guia da Sprint 3](docs/SPRINT3-EXPEDICAO.md) e a [integração com G1](../docs/estabilizacao-sprint3/03-INTEGRACAO-GRUPO1.md). A biblioteca da Sprint 2 continua em `src/processing`.
 
-Protótipo independente do **Grupo 5**, preparado para a aula 2. React, TypeScript e Vite, sem backend ou dependência do App Shell. A pasta mantém o nome antigo por compatibilidade com o checkout.
+FrontEnd do **Grupo 5**, em React, TypeScript e Vite. O painel atual recebe a telemetria pelo barramento do App Shell, sem conexão WebSocket própria. Sem produção, tempos e premissas aprovadas, os indicadores ficam em N/D.
 
-Todos os indicadores, ordens, lotes e saídas são simulados. Nenhum comando é enviado à planta. Os dados são salvos neste navegador e restaurados com a simulação pausada. Reiniciar ou trocar de cenário substitui os dados salvos.
+As rotas `/` e `/sprint3.html` abrem o painel da Sprint 3 em desenvolvimento e na distribuição `release/`. Os gráficos mostram a etapa atual das peças rastreadas e a produção aprovada e rejeitada. Com contadores acumulados, o gráfico mostra os totais da sessão.
 
-A camada isolada em `src/integration` prepara a leitura de ordens da Planta N2 por GET, com adapter parcial e fallback mock identificado. Seu consumo é explícito; a interface continua usando a simulação. Veja [a análise, os mapeamentos e o uso da integração](docs/integracao-production-orders.md).
+A camada isolada em `src/integration` prepara a leitura de ordens da Planta N2 por GET, com adapter parcial e fallback mock identificado. Veja [a análise, os mapeamentos e o uso da integração](docs/integracao-production-orders.md).
 
 ## Rodar
 
@@ -20,6 +20,16 @@ npm run dev
 Abra **http://localhost:8084**. No PowerShell com execução de scripts bloqueada, use `npm.cmd` no lugar de `npm`.
 
 ## Demonstrar
+
+### Sprint 3 · Expedição e OEE
+
+Abra `/sprint3.html` no Vite. Para validar as observações reais na bancada, inicie `npm --prefix FrontEnd run dev -- --mode bancada --host 127.0.0.1` na raiz e clique em **Ler bancada N2**. A fonte de produção do painel publicado é o barramento do App Shell. A simulação e o acesso de diagnóstico da bancada ficam no desenvolvimento. O [guia da Sprint 3](docs/SPRINT3-EXPEDICAO.md) registra o cálculo, a integração e as pendências de aceite.
+
+OEE usa disponibilidade × performance × qualidade, com performance limitada a 100%. As cores são verde a partir de 85%, amarelo de 70% até antes de 85% e vermelho abaixo de 70%. A memória exibe tempos, capacidade e critério recebido. Os dados reais e simulados têm sessões separadas. O reset exige confirmação e grava autor declarado, horário e estado anterior antes de limpar; falha de armazenamento bloqueia a limpeza.
+
+Para conferir a distribuição publicada, execute na raiz `npm run build:release` e `npm run preview:release`. Para testar o navegador, execute na raiz `npx playwright install chromium` e `npm run test:browser`. As fixtures são sintéticas e ficam em `../integration/browser/`; não comprovam produção física. O módulo visual conserva o estado na navegação SPA, mas precisa de replay do host para eventos emitidos enquanto desmontado. Um recarregamento completo inicia uma nova sessão em memória; o histórico de reset continua no armazenamento local.
+
+### Recursos históricos do protótipo
 
 - Sete cenários, incluindo **Novo planejamento** para cadastrar as próprias OPs e começar do zero.
 - Cadastro de OP com produto, quantidade e destino; códigos duplicados são rejeitados.
@@ -35,7 +45,7 @@ Abra **http://localhost:8084**. No PowerShell com execução de scripts bloquead
 - CSV dos indicadores, premissas, OPs/destinos, posições, movimentações e saídas; PDF via impressão do navegador.
 - Layout responsivo, navegação por teclado, modal com foco contido e estados vazios.
 
-Para salvar PDF, clique em **Salvar PDF** e selecione **Salvar como PDF** no diálogo de impressão. CSV e PDF identificam a origem simulada dos dados.
+Os arquivos do protótipo ficam no repositório como referência e para os testes do domínio.
 
 ## Verificar
 
